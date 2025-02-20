@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -24,9 +24,14 @@ jobs:
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/lib/android
-          docker system prune -a -f || true
-          sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /usr/local/share/powershell
+          sudo apt-get clean
+          docker system prune -a -f
+          sudo rm -rf /home/runner/.npm
+          sudo rm -rf /home/runner/.cache
+          df -h
+
 
       - name: Set up Python version
         uses: actions/setup-python@v5
@@ -46,7 +51,8 @@ jobs:
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip . -x "venv/*" "*.git*" "*__pycache__*" 
+
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
