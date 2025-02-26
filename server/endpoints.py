@@ -2,8 +2,8 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS  # Import CORS
 import main as mn  # Import your main logic
 
-app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+app = Flask(__name__, static_folder="server/static", static_url_path="")
+CORS(app)
 
 @app.route('/api/evaluate_prompt', methods=['POST'])
 def evaluate_prompt():
@@ -23,4 +23,4 @@ def evaluate_prompt():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)
