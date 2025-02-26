@@ -4,6 +4,7 @@ import bias_detection as bd
 # Main logic for the server and the bias detection
 def main(model, prompt):
     print("Main function started")
+    # Initialize
     return_LLM_response = ap.submitPromptForEval(model, prompt)
 
     returned_scores = [0, 0, 0]  # Default scores in case model not found

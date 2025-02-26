@@ -25,9 +25,9 @@
         background: none !important;
         outline: none !important;
         border: none !important;
-        position: absolute;
+        position: relative;
         top: 10;
-        right: 1575px;
+        right: 1500px;
         cursor: pointer !important;
     }
 
