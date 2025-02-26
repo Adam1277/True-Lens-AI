@@ -24,10 +24,6 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Clean up any existing temporary files
-        run: |
-          rm -rf /tmp/*
-
       - name: Create and start virtual environment
         run: |
           python -m venv venv
