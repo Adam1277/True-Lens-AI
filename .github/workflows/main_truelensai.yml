@@ -12,26 +12,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Free up disk space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /var/lib/apt/lists/*
-          sudo rm -rf /usr/local/share/powershell
-          sudo apt-get clean
-          docker system prune -a -f
-          sudo rm -rf /home/runner/.npm
-          sudo rm -rf /home/runner/.cache
-          df -h
-
 
       - name: Set up Python version
         uses: actions/setup-python@v5
@@ -44,15 +30,12 @@ jobs:
           source venv/bin/activate
       
       - name: Install dependencies
-        working-directory: server
-        run: |
-          source ../venv/bin/activate
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
+        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip . -x "venv/*" "*.git*" "*__pycache__*" 
-
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -85,9 +68,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9E3BDB21AAA8439F8C9617B91CC7834B }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C835E8205BFF4B3E9CE7B9E09CF3E3D5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_949F459267474DC9B374671C21731335 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DD4A19300042485488A5AC744134669E }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_021C3E41FACE447F8461DD8F76F867F8 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5EF98DBE5AE74FBFA9B315CBB4B35203 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
