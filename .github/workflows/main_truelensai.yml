@@ -73,6 +73,9 @@ jobs:
       - name: Create temp directory
         run: mkdir -p $HOME/tmp
 
+      - name: Force pip to use custom temp directory
+        run: pip install --no-cache-dir --build $HOME/tmp -r requirements.txt
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
