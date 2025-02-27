@@ -67,8 +67,11 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
         
-      - name: Remove pip cache  # Add this step here
-        run: pip cache purge
+      - name: Set custom temp directory
+        run: echo "TMPDIR=$HOME/tmp" >> $GITHUB_ENV
+
+      - name: Create temp directory
+        run: mkdir -p $HOME/tmp
 
       - name: Login to Azure
         uses: azure/login@v2
