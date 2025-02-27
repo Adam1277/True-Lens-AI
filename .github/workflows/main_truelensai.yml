@@ -67,14 +67,15 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
         
-      - name: Set custom temp directory
-        run: echo "TMPDIR=$HOME/tmp" >> $GITHUB_ENV
+      - name: Set custom temp directory for pip
+        run: |
+          echo "TMPDIR=$HOME/tmp" >> $GITHUB_ENV
+          mkdir -p $HOME/tmp
 
-      - name: Create temp directory
-        run: mkdir -p $HOME/tmp
-
-      - name: Force pip to use custom temp directory
-        run: pip install --no-cache-dir --build $HOME/tmp -r requirements.txt
+      - name: Install dependencies
+        run: pip install --no-cache-dir -r requirements.txt
+        env:
+          TMPDIR: $HOME/tmp
 
       - name: Login to Azure
         uses: azure/login@v2
