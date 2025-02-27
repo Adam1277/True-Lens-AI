@@ -66,6 +66,9 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+        
+      - name: Remove pip cache  # Add this step here
+        run: pip cache purge
 
       - name: Login to Azure
         uses: azure/login@v2
