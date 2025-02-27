@@ -38,6 +38,7 @@ jobs:
       - name: Check disk usage before zipping
         run: df -h
 
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
